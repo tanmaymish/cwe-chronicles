@@ -38,6 +38,38 @@ SELECT * FROM items WHERE owner = 'wiley' AND itemname = 'name' OR 'a'='a';
 
 ---
 
+## 🗺️ Attack Flow
+
+```mermaid
+flowchart TD
+    A(["👤 Attacker"]) --> B["Crafts malicious input\ne.g. ' OR '1'='1"]
+    B --> C["Submits via\nform / URL / cookie / header"]
+    C --> D{"App builds\nSQL string by\nconcatenation?"}
+
+    D -- "✅ Yes (vulnerable)" --> E["💣 Malicious SQL\ninjected into query"]
+    D -- "❌ No (parameterized)" --> SAFE["✅ Input treated as\npure data — safe"]
+
+    E --> F{{"What does the\nattacker want?"}}
+
+    F --> G["🔓 Auth Bypass\n' OR '1'='1' --"]
+    F --> H["📤 Data Exfiltration\nUNION SELECT passwords..."]
+    F --> I["💥 Data Destruction\nDROP TABLE users; --"]
+    F --> J["🖥️ OS Command Exec\nxp_cmdshell 'dir'"]
+
+    G --> K[["🚨 Full account takeover"]]
+    H --> K
+    I --> K
+    J --> K
+
+    style A fill:#ff4444,color:#fff,stroke:#cc0000
+    style E fill:#ff6600,color:#fff,stroke:#cc4400
+    style SAFE fill:#00aa44,color:#fff,stroke:#007733
+    style K fill:#990000,color:#fff,stroke:#660000
+    style F fill:#cc6600,color:#fff,stroke:#994400
+```
+
+---
+
 ## 💥 Attack Scenarios
 
 ### 1. Authentication Bypass
