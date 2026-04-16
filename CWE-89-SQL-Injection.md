@@ -1,4 +1,4 @@
-# 🛡️ SQL Injection (CWE-89) — Security Write-Up
+# 🛡️ SQL Injection (CWE-79) — Security Write-Up
 
 > **CWE-89 | Improper Neutralization of Special Elements used in an SQL Command**  
 > Likelihood of Exploit: **HIGH** | OWASP Top 10: **A03:2021 – Injection**
